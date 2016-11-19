@@ -1,7 +1,7 @@
 const React = require('react');
 const T = require('../services/twitter');
 
-class Tweet extend React.Component {
+class Tweet extends React.Component {
   render() {
     const isRetweet = this.props.tweet.hasOwnProperty('retweeted_status');
     const status = isRetweet ? this.props.tweet.retweeted_status : this.props.tweet;
@@ -12,16 +12,13 @@ class Tweet extend React.Component {
 
     return (
       <li className='list-group-item'>
-        <img src={status.user.profile_image_url_https} className='img-rounded media-object pull-left' width='32' height='32'>
+        <img src={status.user.profile_image_url_https} className='img-rounded media-object pull-left' width='32' height='32' />
         <div className='media-body'>
           <strong className='user-name'>{status.user.name}</strong>
           <span className="user-screen_name">@{status.user.name}</span>
           <p className="text">{status.text}</p>
-          {firstImage ?
-            <img src='{firstImage.media_url_https}' className='img-rounded media-object media-img'/>
-          :null}
-          {isRetweet ?
-            <span classNa me="icon icon-retweet">Retweeted by {this.props.tweet.user.name}</span>}
+          {firstImage ? <img src='{firstImage.media_url_https}' className='img-rounded media-object media-img'/> :null}
+          {isRetweet ? <span className="icon icon-retweet">Retweeted by {this.props.tweet.user.name}</span>　: null}
         </div>
       </li>
     );
@@ -30,7 +27,7 @@ class Tweet extend React.Component {
 
 class Timeline extends React.Component {
   render() {
-    const tweets = this.props.tweets.map((tweet)) => {
+    const tweets = this.props.tweets.map(tweet => {
       return <Tweet tweet={tweet} key={tweet.id}/>;
     });
     return (
@@ -47,7 +44,7 @@ module.exports = class MainContent extends React.Component {
 
   componentDidMount() {
     T.get('statuses/home_timeline')
-     .catch(error => console.log(error);})
+     .catch(error => {console.log(error);})
      .then((result) => {
         this.setState({tweets: result.data});
         this.connectStream();
